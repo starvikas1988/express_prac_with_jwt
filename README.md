@@ -9,8 +9,8 @@ Let's say we have two models: User and Post. Each post is created by a user, and
 Here, we define the User model, which stores information about the user. This model will be referenced by the Post model.
 
 User.js:
-javascript
-Copy code
+```js
+
 const mongoose = require('mongoose');
 
 // Define User Schema
@@ -29,12 +29,12 @@ const userSchema = new mongoose.Schema({
 // Create and export the User model
 const User = mongoose.model('User', userSchema);
 module.exports = User;
+```
 2. Creating the Post Model with a Reference to User
 In the Post model, we reference the User model using ObjectId. This establishes a relationship where each post is created by a user.
 
 Post.js:
-javascript
-Copy code
+```js
 const mongoose = require('mongoose');
 
 // Define Post Schema
@@ -61,6 +61,7 @@ const postSchema = new mongoose.Schema({
 // Create and export the Post model
 const Post = mongoose.model('Post', postSchema);
 module.exports = Post;
+```
 Explanation:
 mongoose.Schema.Types.ObjectId:
 The author field in the Post schema is of type ObjectId. This tells Mongoose that this field will store an ID that references another document (in this case, a document from the User model).
@@ -70,8 +71,7 @@ The ref option is used to define the model that this ObjectId refers to. In this
 When you query a Post, you can use Mongoose's populate() method to replace the ObjectId in the author field with the actual user document.
 
 Example of Fetching Posts with Author Information:
-javascript
-Copy code
+```js
 const Post = require('./models/Post');
 const User = require('./models/User');
 
@@ -85,13 +85,14 @@ Post.find()
             console.log(posts);
         }
     });
+
+```
 populate('author'): This replaces the ObjectId of the author with the actual document from the User model, allowing you to access the user's details along with the post.
 4. Example of Creating a New Post with a User Reference
 To create a post associated with a user, you'll need the user's _id:
 
 Create a User and a Post:
-javascript
-Copy code
+```js
 const User = require('./models/User');
 const Post = require('./models/Post');
 
@@ -118,11 +119,11 @@ newUser.save()
     .catch(err => {
         console.error('Error:', err);
     });
+```
 5. Example of Querying Posts with Populated Author Information
 To fetch posts along with the user's details (author), you can use the following query with populate():
 
-javascript
-Copy code
+```js
 Post.find()
     .populate('author', 'name email')  // Only populate the 'name' and 'email' fields of the author
     .exec((err, posts) => {
@@ -132,14 +133,13 @@ Post.find()
             console.log('Posts with author information:', posts);
         }
     });
-
+```
 No, there should not be a comma between 'name' and 'email' in the .populate() method.
 
 In Mongoose, when you use the populate() method and want to select specific fields from the populated document, you pass a space-separated string of field names. The fields are specified within the same string, separated by spaces, not by commas.
 
 Correct Syntax:
-javascript
-Copy code
+```js
 Post.find()
     .populate('author', 'name email')  // Space-separated field names without commas
     .exec((err, posts) => {
@@ -149,14 +149,14 @@ Post.find()
             console.log(posts);
         }
     });
+```
 Explanation:
 populate('author', 'name email'): This tells Mongoose to populate the author field and include only the name and email fields from the referenced User model.
 You can include multiple fields by separating them with spaces in a single string, e.g., 'name email'.
 Example with Multiple Fields:
 If you want to populate more fields, such as name, email, and userType, you would still separate them with spaces:
 
-javascript
-Copy code
+```js
 Post.find()
     .populate('author', 'name email userType')
     .exec((err, posts) => {
@@ -166,9 +166,10 @@ Post.find()
             console.log(posts);
         }
     });
+```
 Note:
 If you want to exclude certain fields, you can use a minus sign (-) before the field name, for example:
-javascript
-Copy code
+```js
 .populate('author', '-password')  // This will exclude the 'password' field
+```
 
