@@ -1,0 +1,54 @@
+express_prac
+
+
+POST
+user-signUp
+http://localhost:5001/api/v1/user/signUp
+
+
+Body
+raw (json)
+json
+{
+  "name": "Vikas",
+  "userId":"2",
+  "email":"vikas12@gmail.com",
+  "password": "testpassword"
+//   "userType":"ADMIN"
+}
+GET
+user-getUserDetails
+http://localhost:5001/api/v1/user/getUserDetails
+
+
+Authorization
+Bearer Token
+Token
+<token>
+Body
+raw (json)
+json
+{
+    "userId":"1"
+}
+POST
+user-login
+http://localhost:5001/api/v1/user/login
+
+
+Body
+raw (json)
+json
+{
+    "email":"vikas12@gmail.com",
+    "password":"testpassword"
+}
+GET
+protected
+http://localhost:5001/api/v1/protected
+
+
+Authorization
+Bearer Token
+Token
+<token>
